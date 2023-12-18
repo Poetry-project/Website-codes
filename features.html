@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="container" style="padding: 0 56px 0 56px;margin-top: 16px;">
+    <div class="row mb-3">
+        <label class="form-control bg-secondary text-white text-center fs-3">AI Generate A Poetry</label>                
+    </div>     
+    <!-- <form action="{{url_for('features')}}" method="post">        -->
+    <div class="row mb-3">
+        <div class="d-grid gap-2 col-md-3 mx-auto">
+            <button type="button" class="btn btn-primary" id="reset"><i class="fa fa-eraser"></i>Clear</button>
+        </div>
+        <div class="d-grid gap-2 col-md-3 mx-auto">
+            <button type="button" id="generate" class="btn btn-primary">New Generate</button>
+        </div>
+
+    </div>
+    <!-- </form> -->
+    <!-- <div class="row mb-3">
+        {{result}}
+    </div> -->
+    <div class="row mb-3" id="result">
+    </div>
+
+</section>
+
+<script type="text/javascript">
+    $(function () {
+        $('#reset').on('click', function (e) {
+            e.preventDefault()
+            document.getElementById("result").innerHTML = '';
+        });
+
+        $('#generate').on('click', function (e) {
+            e.preventDefault()
+            $.ajax({
+                type: "POST",
+                url: "/background_process",
+                // data: JSON.stringify(server_data),
+                contentType: "application/json",
+                // dataType: 'json',
+                success: function (result) {
+                    document.getElementById("result").innerHTML = '<p class="text-center fs-2 fw-bold font-monospace" >' + result + '</p>';
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}

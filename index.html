@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="container" style="padding: 0 16px 0 16px;margin-top: 36px;">
+ <form action="{{url_for('main')}}" method="post">
+
+  <div class="row mb-3">
+   <label for="txt_generate" class="form-label">أدخل عنوان النص الشعري</label>
+   <input type="text" class="form-control" name="txt_generate" id="txt_generate" placeholder="أدخل عنوان النص الشعري"
+    aria-label="أدخل عنوان النص الشعري" aria-describedby="basic-addon1" required>   
+  </div>
+  <div class="row mb-3">
+   <div class="d-grid gap-2 col-md-3 mx-auto">    
+    <!-- <button type="submit" class="btn btn-success">توليد النص</button> -->
+    <button type="submit" class="btn" style="background-color: #7d6d6d; color: #fff;"> توليد النص الشعري عن طريق الحقل</button>
+    <!-- <button type="submit" class="btn" style="background-color: #5822bb;">توليد النص</button> -->
+   </div>
+ 
+   
+   <div class="d-grid gap-2 col-md-3 mx-auto">
+    <button type="button" id="btnpoetryX" class="btn btn-primary">اختبار النشر على منصة X</button>
+   </div> 
+
+   <div class="d-grid gap-2 col-md-3 mx-auto">
+    <button type="button" id="btnGenerateAi" class="btn" style="background-color: #7d6d6d; color: #fff;">توليد النص الشعري من عنوان عشوائي</button>
+   </div>
+
+   <div class="d-grid gap-2 col-md-3 mx-auto">
+    <button type="reset" class="btn" id="reset" style="background-color: #7d6d6d; color: #fff;"><i class="fa fa-eraser"></i></button>
+   </div>
+  </div>
+ </form>
+ <hr>
+ <div class="row mb-3" id="result">
+ </div>
+</section>
+
+<script>
+ $(function () {
+  $('#reset').on('click', function (e) {
+   e.preventDefault()
+   document.getElementById("result").innerHTML = '';
+   document.querySelector('#txt_generate').value = '';
+  });
+
+  $('#btnGenerateCustom').on('click', function (e) {
+   e.preventDefault()
+   var formData = {
+    txtGenerate: $("#txt_generate").val(),
+   };
+   $.ajax({
+    type: "POST",
+    url: "/GenerateCustom",
+    data: JSON.stringify(formData),
+    contentType: "application/json",
+    // dataType: 'json',
+    success: function (result) {
+     document.getElementById("result").innerHTML = '<p class="text-center fs-2 fw-bold font-monospace" >' + result + '</p>';
+    }
+   });
+  });
+
+  $('#btnGenerateAi').on('click', function (e) {
+   e.preventDefault()
+   $.ajax({
+    type: "POST",
+    url: "/GenerateAi",
+    // data: JSON.stringify(server_data),
+    contentType: "application/json",
+    // dataType: 'json',
+    success: function (result) {
+     document.getElementById("result").innerHTML = '<p class="text-center fs-2 fw-bold font-monospace" >' + result + '</p>';
+    }
+   });
+  });
+
+  $('#btnpoetryX').on('click', function (e) {
+   e.preventDefault()
+   var formData2 = {
+    txtGenerate: $("#txt_generate").val(),
+   };
+   $.ajax({
+    type: "POST",
+    url: "/PoetryTwitter",
+    // data: JSON.stringify(formData2),
+    data :{ txtGenerate: $("#txt_generate").val(),},
+    // contentType: "application/json",
+    // dataType: 'json',
+    success: function (result) {
+     document.getElementById("result").innerHTML = '<p class="text-center fs-2 fw-bold font-monospace" >' + result + '</p>';
+    }
+   });
+  });
+ });
+</script>
+{% endblock %}
