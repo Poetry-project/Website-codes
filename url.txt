@@ -1,0 +1,2 @@
+https://medium.com/@k7aled.el3bady123/how-to-create-scheduled-jobs-in-flask-using-apscheduler-b6c244c4975e
+https://dev.to/mxglt/how-to-execute-a-recurrent-task-in-a-flask-app-1bk7
